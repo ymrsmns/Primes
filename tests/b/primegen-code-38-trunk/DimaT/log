@@ -1,0 +1,7 @@
+Calc primes on interval 50000000000000000..50000000100000000
+reallocate cache to 6144Kb
+reallocate cache to 7680Kb
+reallocate cache to 9600Kb
+reallocate cache to 12000Kb
+reallocate cache to 15000Kb
+Count 2601810 primes. Time: -1724 msec. Speed: -1510K/sec

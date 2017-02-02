@@ -3,71 +3,44 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <set>
-#include <ctime>
+#include <ctime> /* clock_t, clock, CLOCKS_PER_SEC */
+
 #include <cstdint> //UINT_PTR, BYTE=>uint8_t WORD =>uint16_t DWORD=>uint32_t
-#include <sys/time.h> //SetTimer
-#include <time.h>
+//#include <sys/time.h> //SetTimer
+//#include <time.h> /* clock_t, clock, CLOCKS_PER_SEC */
 #include <thread> //работа  с потоками
 //#include <Windows.h>
-#include "primesieve/primesieve.hpp"
-
+#include "next_prime64.h"
 using namespace std;
 
 typedef unsigned long long ull;
 enum poziciya{chasy,minuty,sekundy,sdelano,vremya,interval,provereno,skorostq,vsego_16,konec};
 enum shablony{s_16=15,s_17,s_18,s_19,s_20,s_21,s_22,s_23,s_24,s_25,s_26,s_27,s_28,s_29,s_30,s_31,s_32,s_33};
 
-const int dlina_intervala = 20000000;//2000 000 000;
+//2 000 000 000
+const int dlina_intervala = 100000000;//2000 000 000;
+const int chikli_stop = 240;//5000001;
+
 const int chislo_shablonov = 18;
 const int max_smew = ((s_33 + 1) >> 1);
 const int centr = (s_33 >> 1) - 1;
 const int ss = 100;
-int kolnum = 0;
-const int chikli_stop = 12001;//5000001; 
 int chikli_last = 0;
 const int sss = 1000000;
 const int koord[10][10] = {{40,0},{51,0},{54,0},{13,2},{49,0},{0,1},{0,2},{0,3},{12,4},{0,22}};
 const int koord2[] = {1,2,3,4,5,66,77,8,9,10};
-class _kursor{
-	int ScrHandle; //HANDLE
-public:
-	//_kursor(){ScrHandle = GetStdHandle(STD_OUTPUT_HANDLE);}
-	_kursor(){ScrHandle = 0;}
-	void skrytq(){
-//		CONSOLE_CURSOR_INFO kursinf;	
-//		GetConsoleCursorInfo(ScrHandle , &kursinf);
-//		kursinf.bVisible = false;
-//		SetConsoleCursorInfo(ScrHandle , &kursinf);
-//		cout << &kursinf << endl
-		cout << ScrHandle << endl;
-	}
-	void pokazatq(){
-//		CONSOLE_CURSOR_INFO kursinf;	
-//		GetConsoleCursorInfo(ScrHandle , &kursinf);
-//		kursinf.bVisible = true;
-//		SetConsoleCursorInfo(ScrHandle , &kursinf);
-//		 cout << &kursinf << endl
-		 cout << ScrHandle << endl;
-	}
-//	void pomestitq(COORD z){SetConsoleCursorPosition(ScrHandle, z);}
-	void pomestitq(int z){  
-		 cout << z  ; cout << "  " ;}
-		 //printf(" %d ", z);     }
-} kursor;
 
 int hpotok; //HANDLE
-uint32_t idpotok; //DWORD
+uint64_t idpotok; //DWORD
 intptr_t idTimer;
 int speed, najdeno[chislo_shablonov];
-ull  start, endint, max_stop = 1844674403075987866;
-//max_stop = primesieve::get_max_stop();
+uint64_t start, endint;//, max_stop = 1844674403075987866;
 unsigned progress;
 bool otobr, poisk, pros, provr;
-vector<ull> primes;
+//vector<ull> primes;
+std::vector<uint64_t> primes;
 clock_t nachtik;
 
-void TimerProc(const int koord[][10]); //криво
 void potok();//potok(void*);
 bool vypolnitq();
 bool init(int nabor[]);
@@ -75,56 +48,15 @@ void proverka(int nabor[]);
 void vyvod(long long stprime, int nabor[], int st, int shablon);
 void prov_ne_poln(int nabor[]);
 void prov_nach_ne_poln(int nabor[]);
-inline void vremya_vyvod(){
-	static int tik, minuta, chas;
-	if(tik > 57){
-		tik = 0;
-		if(minuta > 58){
-			minuta = 0;
-			chas++;
-			// ошибка типов данных в классе
-			kursor.pomestitq((int)koord[chasy]); 
- 			cout << setw(10) << chas;
-		}
-		else minuta++;
-		// ошибка типов данных в классе
-		kursor.pomestitq((int)koord[minuty]);
-                //cout << koord[minuty]  << endl;
-		cout << setw(2) << setfill('0') << minuta;
-		// ошибка типов данных в классе
-		kursor.pomestitq((int)koord[sekundy]);
-		//cout << koord[sekundy]  << endl;
-		cout << setw(2) << tik << setfill(' ');
-	}
-	else{
-		tik +=2;				
-                // ошибка типов данных в классе
-                //kursor.pomestitq((int)koord[sekundy]);
-                cout << koord[sekundy]  ;
-		cout << setw(2) << setfill('0') << tik << setfill(' ');
-	}
-}
-inline void inf_pros(){
-        // ошибка типов данных в классе
-//	kursor.pomestitq((int)koord[interval]);
-	
-	cout << "Текущий интервал: [" << start << " ... " << endint << "]\n";
-	// ошибка типов данных в классе
-//	kursor.pomestitq((int)koord[skorostq]);
-	cout << "Скорость: ";
 
+inline void inf_pros(){
+	cout << "Текущий интервал: [" << start << " ... " << endint << "]\n";
+	cout << "Скорость:";
 	if(speed) cout << setw(6) << speed;
-	else for(int i = s_16; i <= s_33; i++) cout << "\nНайдено " << (i + 1) << ':';
+//	else for(int i = s_16; i <= s_33; i++) cout << "\nНайдено " << (i + 1) << ':';
 	pros = false;
-	cout << " Пройдено: " << kolnum << " " ;
-	kolnum = endint;
 	cout << " Пройдено циклов: " << chikli_last << " " ;
-}
-inline void inf_provr(){
-	kursor.pomestitq((int)koord[provereno]);
-        // ошибка типов данных в классе
-	cout << "Проверено :      0%";
-	provr = false;
+	pros = false;
 }
 inline void proverka_ch(int nabor[], int st, int i){
 	for(int j = 1, t = centr + st; j <= 7; j++){
@@ -150,76 +82,65 @@ inline void prov_nach(int nabor[], int i, int k){
 	for(int j = 0; j < (i >> 1); j++) if(nabor[k + j] != nabor[i - 1 + k - j]) return;
 	vyvod(primes[k], nabor, k, i);
 }
-//&
+int prime_calc(uint64_t from, uint64_t to)
+{
+       if(from & 1) from--; // делаем четным чтобы не пропустить простое from
+        if(from <= 2) from = 1;
+        int cnt = 0;
+        uint64_t x = next_prime(from);  //поиск числа
+        primes.push_back(x);
+        while(x && x < to) {
+                cnt++;
+                x = next_prime(x);
+                primes.push_back(x);
+        }
+        next_prime(0); // освобождение пам€ти
+        if(x == 0) cnt = -1; // ошибка в next_prime()
+        return cnt;
+}
+
 int main(){
 	setlocale(LC_CTYPE, "rus");
-	kursor.skrytq();
 	cout << "Поиск ассоциативных наборов простых";
-	//kursor.pomestitq((int)koord[vremya]);	
-	cout << "0:00:00";
-	//hpotok = CreateThread(NULL, 0, potok, NULL, 0, &idpotok);	
 	std::thread thr(potok);
 	thr.detach();
-//	potok();
-	//Таймер обновления окна
-	//idTimer = setitimer(NULL, 1, 2000, T1merProc(koord));
-	//Выкинул, передача событий окну
-	//MSG msg;	
 	while(true){
-	TimerProc(koord);
-	sleep(10);
-	//	GetMessage(&msg, NULL, 0, 0);
-	//	DispatchMessage(&msg);
-	}	
+		if(pros) inf_pros();
+		sleep(10);
+	}
 	return 0;
 }
 
 void potok(){
-	int t=clock();
-
 	ifstream fin("start.txt");
-	cout<<clock()-t<<endl;
 	if(fin) fin >> start;
 	fin.close();
 	cout << " START: " << start << endl;
-	cout << " STOP: " << fin << endl;
-	cout << " MAX: " << max_stop  << endl;
-//	start &= 0;
-//	max_stop =  start+dlina_intervala*100;
-/// beskon	while(vypolnitq());
-        for(chikli_last = 0; chikli_last < chikli_stop; chikli_last++) vypolnitq();
-	//убиваем таймер
-//	KillTimer(NULL, idTimer);
-//	sleep(10);
-	cout << "\n\nДостигнут максимум " << max_stop << "\nДля выхода нажмите любую клавишу . . .\n";
-//	system("pause > nul");
-	kursor.pokazatq();
+        for(chikli_last = 0; chikli_last < chikli_stop; chikli_last++) if(!vypolnitq())break;
 	exit(0);
-//	return 0;
 }
 
-void TimerProc(const int koord[][10]){
-	//vremya_vyvod();
-	if(pros) inf_pros();
-	//if(provr) inf_provr();
-	//kursor.pomestitq((int)koord[konec]);
-
-}
 
 bool vypolnitq(){
-	if(start >= max_stop) return false;
-	endint = min(start + dlina_intervala, max_stop);
+	endint = start + dlina_intervala;
+  clock_t s = clock();
+	next_prime(endint); 
+ std::cout << "\ntime(s): " << ((float)clock()-s) / CLOCKS_PER_SEC << std::endl;
 	if(!otobr) otobr = true;
 	pros = true;	
 	poisk = false;
 	primes.clear();
 	nachtik = clock();
-	primesieve::generate_primes(start, endint, &primes);
-//	for(int i=0; i<primes.size(); ++i)
-//	    std::cout << primes[i] << ' ';
+ clock_t s2 = clock();
+        prime_calc(start,endint); //заменена функция
+ std::cout << "\ntime2(s): " << ((float)clock()-s2) / CLOCKS_PER_SEC << std::endl;
+
 	if(primes.size() <= s_16) return false;
 	int nabor[s_33];
+ clock_t s3 = clock();
 	if(!init(nabor)) return false;
+ std::cout << "\ntime3(s): " << ((float)clock()-s3) / CLOCKS_PER_SEC << std::endl;
+
 	proverka(nabor);
 	return true;
 }
@@ -267,8 +188,8 @@ void proverka(int nabor[]){
 
 void vyvod(long long  stprime, int nabor[], int st, int shablon){
 	ostringstream imya;
-	cout  << endl;
-	imya << "kpppch_" << (shablon + 1) << ".txt";
+	cout << (shablon + 1) << endl;
+	//imya << "kpppch_" << (shablon + 1) << ".txt";
 	ofstream fout("out.txt", ios::out | ios::app);
 	fout << (shablon + 1) << "=> ";
 	fout << stprime << ": 0";

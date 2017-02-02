@@ -1,0 +1,35 @@
+real    6m15.721s 
+const int dlina_intervala = 1000000;//2000 000 000;
+const int chikli_stop = 100;//5000001;
+1000 000 * 100 = 100 000 000
+---------------------------------------
+real    1m38.416s
+const int dlina_intervala = 10000000;//2000 000 000;
+const int chikli_stop = 10;//5000001;
+10 000 000 * 10 = 100 000 000
+---------------------------------------
+1m11.128
+RAM 35
+const int dlina_intervala = 100000000;//2000 000 000;
+const int chikli_stop = 1;//5000001;
+100 000 000
+--------------------------------------------
+real    24m7.310s
+RAM 400
+const int dlina_intervala = 2000000000;//2000 000 000;
+const int chikli_stop = 1;//5000001;
+2 000 000 000;
+------------------------------------------------------------
+24m44.185s
+const int dlina_intervala = 100000000;//2000 000 000;
+const int chikli_stop = 20;//5000001;
+2 000 000 000;
+-------------------------------------------------
+real    0m7.588s
+root@boinc:~/boinc_git/boinc-source/samples/kpppch# g++ kpppch_16_do_33.o -O3 -Wall  -static -pthread -Llibprimesieve.a -lprimesieve -fopenmp -std=c++0x -o primes && time ./primes
+Поиск ассоциативных наборов простых[potok]
+ START: 50000031438929728
+ STOP: 50000031638919050
+199 989 322
+-----------------------------------------------------------
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -f *.o
+g++ -c k16x32boinc.cpp -O3 -Wall  -I./h -m32 -std=c++0x
+g++ k16x32boinc.o -O3 -Wall -I./h -s -static -Llibboinc_api.a -Llibprimesieve.a -lprimesieve -fopenmp  -std=c++0x -m32 -Llibstdc++.a -o primes_x32 ../../api/libboinc_api.a ../../lib/libboinc.a
+./primes_x32

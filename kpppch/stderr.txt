@@ -1,0 +1,78 @@
+13:41:30 (22789): Can't open init data file - running in standalone mode
+15:32:20 (23092): Can't open init data file - running in standalone mode
+15:32:20 (23092): Couldn't find input file, resolved name in.txt.
+15:32:40 (23095): Can't open init data file - running in standalone mode
+15:49:02 (23137): Can't open init data file - running in standalone mode
+16:16:11 (23264): Can't open init data file - running in standalone mode
+16:17:32 (23264): called boinc_finish
+16:23:34 (23301): Can't open init data file - running in standalone mode
+16:30:53 (23334): Can't open init data file - running in standalone mode
+16:31:59 (23334): called boinc_finish
+16:34:33 (23347): Can't open init data file - running in standalone mode
+16:34:50 (23350): Can't open init data file - running in standalone mode
+16:36:22 (23350): called boinc_finish
+14:01:06 (25689): Can't open init data file - running in standalone mode
+14:34:23 (25760): Can't open init data file - running in standalone mode
+14:51:19 (25813): Can't open init data file - running in standalone mode
+14:53:38 (25829): Can't open init data file - running in standalone mode
+14:55:02 (25843): Can't open init data file - running in standalone mode
+SIGSEGV: segmentation violation
+Stack trace (2 frames):
+[0x8059867]
+[0xb77f1400]
+
+Exiting...
+14:55:08 (25857): Can't open init data file - running in standalone mode
+14:55:10 (25859): Can't open init data file - running in standalone mode
+SIGSEGV: segmentation violation
+Stack trace (2 frames):
+[0x8059867]
+[0xb7717400]
+
+Exiting...
+14:56:02 (25868): Can't open init data file - running in standalone mode
+14:58:31 (25880): Can't open init data file - running in standalone mode
+14:59:57 (25891): Can't open init data file - running in standalone mode
+15:00:33 (25902): Can't open init data file - running in standalone mode
+15:02:00 (25915): Can't open init data file - running in standalone mode
+15:02:36 (25926): Can't open init data file - running in standalone mode
+15:13:13 (25996): Can't open init data file - running in standalone mode
+SIGSEGV: segmentation violation
+Stack trace (2 frames):
+[0x80b4117]
+[0xb7781400]
+
+Exiting...
+15:13:38 (26003): Can't open init data file - running in standalone mode
+SIGSEGV: segmentation violation
+Stack trace (2 frames):
+[0x80b4117]
+[0xb7786400]
+
+Exiting...
+15:13:59 (26009): Can't open init data file - running in standalone mode
+SIGSEGV: segmentation violation
+Stack trace (2 frames):
+[0x80b4117]
+[0xb77bc400]
+
+Exiting...
+15:14:51 (26019): Can't open init data file - running in standalone mode
+15:15:18 (26040): Can't open init data file - running in standalone mode
+15:39:53 (26087): Can't open init data file - running in standalone mode
+08:14:13 (27656): Can't open init data file - running in standalone mode
+13:27:19 (28287): Can't open init data file - running in standalone mode
+13:28:24 (28306): Can't open init data file - running in standalone mode
+13:30:00 (28306): called boinc_finish
+13:37:59 (28330): Can't open init data file - running in standalone mode
+13:40:01 (28349): Can't open init data file - running in standalone mode
+13:40:49 (28360): Can't open init data file - running in standalone mode
+13:41:05 (28370): Can't open init data file - running in standalone mode
+13:56:50 (28408): Can't open init data file - running in standalone mode
+14:47:34 (28721): Can't open init data file - running in standalone mode
+14:50:31 (28734): Can't open init data file - running in standalone mode
+14:51:25 (28743): Can't open init data file - running in standalone mode
+23:18:45 (30234): Can't open init data file - running in standalone mode
+18:00:39 (19107): Can't open init data file - running in standalone mode
+18:06:58 (19196): Can't open init data file - running in standalone mode
+18:18:04 (19298): Can't open init data file - running in standalone mode

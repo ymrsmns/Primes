@@ -1,0 +1,38 @@
+PROJECT_NAME           = "primesieve"
+PROJECT_NUMBER         = @PACKAGE_VERSION@
+INPUT                  = mainpage.dox \
+                         ../include/primesieve.hpp \
+                         ../include/primesieve.h \
+                         ../include/primesieve/Callback.hpp \
+                         ../include/primesieve/iterator.hpp \
+                         ../include/primesieve/primesieve_error.hpp \
+                         ../include/primesieve/primesieve_iterator.h \
+                         ../examples/cpp/callback_primes.cpp \
+                         ../examples/cpp/count_primes.cpp \
+                         ../examples/cpp/primesieve_iterator.cpp \
+                         ../examples/cpp/nth_prime.cpp \
+                         ../examples/cpp/previous_prime.cpp \
+                         ../examples/cpp/store_primes_in_vector.cpp \
+                         ../examples/c/count_primes.c \
+                         ../examples/c/previous_prime.c \
+                         ../examples/c/primesieve_iterator.c \
+                         ../examples/c/nth_prime.c \
+                         ../examples/c/store_primes_in_array.c
+HTML_INDEX_NUM_ENTRIES = 3
+HTML_TIMESTAMP         = NO
+JAVADOC_AUTOBRIEF      = YES
+MULTILINE_CPP_IS_BRIEF = NO
+SHOW_NAMESPACES        = YES
+VERBATIM_HEADERS       = NO
+EXTRACT_ALL            = NO
+EXTRACT_STATIC         = YES
+FILE_PATTERNS          = *.cpp *.c *.h *.hpp
+EXCLUDE_SYMBOLS        = primesieve_generate_next_primes \
+                         primesieve_generate_previous_primes
+RECURSIVE              = NO
+EXAMPLE_PATH           = ../examples
+EXAMPLE_PATTERNS       = *.cpp *.c
+EXAMPLE_RECURSIVE      = YES
+GENERATE_LATEX         = NO
+FULL_PATH_NAMES        = NO
+HAVE_DOT               = @HAVE_DOT@
