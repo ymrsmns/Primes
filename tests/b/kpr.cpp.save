@@ -1,0 +1,85 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <set>
+#include <ctime>
+#include <cstdint> //UINT_PTR, BYTE=>uint8_t WORD =>uint16_t DWORD=>uint32_t
+#include <sys/time.h> //SetTimer
+#include <time.h>
+#include <thread> //работа  с потоками
+//#include <Windows.h>
+#include "primesieve/primesieve.hpp"
+
+//&
+int main(){
+	setlocale(LC_CTYPE, "rus");
+	kursor.skrytq();
+	cout << "Поиск ассоциативных наборов простых";
+	//kursor.pomestitq((int)koord[vremya]);	
+	cout << "0:00:00";
+	//hpotok = CreateThread(NULL, 0, potok, NULL, 0, &idpotok);	
+	std::thread thr(potok);
+	thr.detach();
+//	potok();
+	//Таймер обновления окна
+	//idTimer = setitimer(NULL, 1, 2000, T1merProc(koord));
+	//Выкинул, передача событий окну
+	//MSG msg;	
+	while(true){
+	TimerProc(koord);
+	sleep(10);
+	//	GetMessage(&msg, NULL, 0, 0);
+	//	DispatchMessage(&msg);
+	}	
+	return 0;
+}
+
+void potok(){
+	int t=clock();
+
+	ifstream fin("start.txt");
+	cout<<clock()-t<<endl;
+	if(fin) fin >> start;
+	fin.close();
+	cout << " START: " << start << endl;
+	cout << " STOP: " << fin << endl;
+	cout << " MAX: " << max_stop  << endl;
+//	start &= 0;
+//	max_stop =  start+dlina_intervala*100;
+/// beskon	while(vypolnitq());
+        for(chikli_last = 0; chikli_last < chikli_stop; chikli_last++) vypolnitq();
+	//убиваем таймер
+//	KillTimer(NULL, idTimer);
+//	sleep(10);
+	cout << "\n\nДостигнут максимум " << max_stop << "\nДля выхода нажмите любую клавишу . . .\n";
+//	system("pause > nul");
+	kursor.pokazatq();
+	exit(0);
+//	return 0;
+}
+
+void TimerProc(const int koord[][10]){
+	//vremya_vyvod();
+	if(pros) inf_pros();
+	//if(provr) inf_provr();
+	//kursor.pomestitq((int)koord[konec]);
+
+}
+
+bool vypolnitq(){
+	if(start >= max_stop) return false;
+	endint = min(start + dlina_intervala, max_stop);
+	if(!otobr) otobr = true;
+	pros = true;	
+	poisk = false;
+	primes.clear();
+	nachtik = clock();
+	primesieve::generate_primes(start, endint, &primes);
+	if(primes.size() <= s_16) return false;
+	int nabor[s_33];
+	if(!init(nabor)) return false;
+	proverka(nabor);
+	return true;
+}
